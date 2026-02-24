@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+@import url('https://unpkg.com/leaflet-draw@0.4.14/dist/leaflet.draw.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light green theme - tuned for carbon / eco branding */
+    --background: 138 40% 96%;
+    --foreground: 140 30% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 140 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 140 30% 20%;
+
+    --primary: 142 52% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 120 28% 84%;
+    --secondary-foreground: 140 30% 20%;
+
+    --muted: 138 30% 93%;
+    --muted-foreground: 140 14% 46%;
+
+    --accent: 86 55% 60%;
+    --accent-foreground: 140 30% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 138 25% 82%;
+    --input: 138 25% 82%;
+    --ring: 142 52% 38%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 142 52% 38%;
+    --sidebar-foreground: 138 40% 96%;
+    --sidebar-primary: 120 28% 84%;
+    --sidebar-primary-foreground: 140 30% 10%;
+    --sidebar-accent: 86 55% 60%;
+    --sidebar-accent-foreground: 140 30% 20%;
+    --sidebar-border: 142 30% 50%;
+    --sidebar-ring: 142 52% 60%;
+  }
+
+  .dark {
+    --background: 140 25% 8%;
+    --foreground: 138 40% 96%;
+
+    --card: 140 20% 11%;
+    --card-foreground: 138 40% 96%;
+
+    --popover: 140 20% 11%;
+    --popover-foreground: 138 40% 96%;
+
+    --primary: 142 52% 50%;
+    --primary-foreground: 140 30% 5%;
+
+    --secondary: 140 20% 18%;
+    --secondary-foreground: 138 40% 96%;
+
+    --muted: 140 20% 18%;
+    --muted-foreground: 140 15% 60%;
+
+    --accent: 86 55% 55%;
+    --accent-foreground: 140 30% 5%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 140 20% 18%;
+    --input: 140 20% 18%;
+    --ring: 142 52% 50%;
+
+    --sidebar-background: 140 25% 6%;
+    --sidebar-foreground: 138 40% 96%;
+    --sidebar-primary: 142 52% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 140 20% 18%;
+    --sidebar-accent-foreground: 138 40% 96%;
+    --sidebar-border: 140 20% 14%;
+    --sidebar-ring: 142 52% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-image:
+      radial-gradient(ellipse at 0% 0%, hsla(120, 40%, 90%, 0.5) 0%, transparent 60%),
+      radial-gradient(ellipse at 100% 100%, hsla(86, 60%, 90%, 0.4) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background-color: hsl(142, 52%, 38%);
+    color: white;
+  }
+}
+
+@layer utilities {
+
+  /* Glassmorphism card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(46, 125, 50, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .glass-card:hover {
+    box-shadow: 0 12px 40px rgba(46, 125, 50, 0.16);
+    transform: translateY(-2px);
+  }
+
+  /* Hero gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #2e7d32 0%, #66bb6a 50%, #8bc34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Eco badge */
+  .eco-badge {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border: 1px solid #a5d6a7;
+    color: #2e7d32;
+    font-weight: 600;
+  }
+
+  /* Fade in up */
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes leaf-sway {
+
+  0%,
+  100% {
+    transform: rotate(-3deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(3deg) scale(1.05);
+  }
+}
+
+@keyframes growUp {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes wave-flow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes wave-flow-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulseRing 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
+  background-size: 200% auto;
+}
+
+.animate-leaf-sway {
+  animation: leaf-sway 4s ease-in-out infinite;
+}
+
+.animate-grow-up {
+  animation: growUp 0.8s ease-out both;
+}
+
+.animate-wave {
+  animation: wave-flow 15s linear infinite;
+  will-change: transform;
+}
+
+.animate-wave-slow {
+  animation: wave-flow 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-wave-reverse {
+  animation: wave-flow-reverse 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes breathing {
+
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.2));
+  }
+
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 35px rgba(76, 175, 80, 0.4));
+  }
+}
+
+@keyframes spin-slow-3d {
+  from {
+    transform: rotateX(10deg) rotateY(0deg);
+  }
+
+  to {
+    transform: rotateX(10deg) rotateY(360deg);
+  }
+}
+
+.animate-breathing {
+  animation: breathing 4s ease-in-out infinite;
+}
+
+.perspective-tilt {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.perspective-tilt:hover {
+  transform: perspective(1000px) rotateX(4deg) rotateY(4deg) translateY(-8px);
+}
