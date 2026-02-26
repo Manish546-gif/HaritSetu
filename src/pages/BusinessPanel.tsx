@@ -33,8 +33,8 @@ import { ledgerService, Transaction } from "@/lib/ledger";
 import { authService } from "@/lib/auth";
 import { web3Service } from "@/lib/web3";
 import { toast } from "sonner";
-import { MarketplaceList } from "@/components/marketplace/MarketplaceList";
-import { CarbonWallet } from "@/components/wallet/CarbonWallet";
+import { MarketplaceList } from "@/features/marketplace/components/MarketplaceList";
+import { CarbonWallet } from "@/features/wallet/components/CarbonWallet";
 
 export default function BusinessPanel() {
     const { t } = useLanguage();

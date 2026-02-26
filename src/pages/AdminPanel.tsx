@@ -10,7 +10,7 @@ import { UserCheck, UserX, Activity, CreditCard, Users, Check, X, Map as MapIcon
 import { toast } from "sonner";
 import { fieldService, Field, CROP_DATA } from "@/lib/fieldService";
 import { web3Service } from "@/lib/web3";
-import FieldMap from "@/components/map/FieldMap";
+import FieldMap from "@/features/map/components/FieldMap";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function AdminPanel() {
