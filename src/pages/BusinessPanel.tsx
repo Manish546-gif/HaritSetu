@@ -32,6 +32,7 @@ import { useWeb3 } from "@/context/Web3Context";
 import { ledgerService, Transaction } from "@/lib/ledger";
 import { authService } from "@/lib/auth";
 import { web3Service } from "@/lib/web3";
+import { purchaseService } from "@/lib/purchaseService";
 import { toast } from "sonner";
 import { MarketplaceList } from "@/components/marketplace/MarketplaceList";
 import { CarbonWallet } from "@/components/wallet/CarbonWallet";
@@ -185,43 +186,114 @@ export default function BusinessPanel() {
         </div>
     );
 
-    const TransactionsView = () => (
-        <Card className="border-green-100 shadow-xl shadow-green-900/5">
-            <CardHeader>
-                <CardTitle className="text-xl flex items-center gap-2">
-                    <History className="w-5 h-5 text-green-600" />
-                    {t("खरीद इतिहास", "Purchase History")}
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                    {recentTXs.length === 0 ? (
-                        <p className="text-center py-8 text-muted-foreground italic">No purchases yet.</p>
-                    ) : (
-                        recentTXs.map(tx => (
-                            <div key={tx.id} className="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-green-50 shadow-sm transition-all hover:shadow-md">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                                        <ShoppingCart className="w-5 h-5" />
+    const TransactionsView = () => {
+        const myRequests = user ? purchaseService.getForBusiness(user.id) : [];
+        const approved = myRequests.filter(r => r.status === "APPROVED");
+        const pending = myRequests.filter(r => r.status === "PENDING");
+        const rejected = myRequests.filter(r => r.status === "REJECTED");
+
+        return (
+            <div className="space-y-6">
+                {/* Approved — credits received */}
+                <Card className="border-green-100 shadow-xl shadow-green-900/5">
+                    <CardHeader>
+                        <CardTitle className="text-xl flex items-center gap-2">
+                            <History className="w-5 h-5 text-green-600" />
+                            {t("खरीद इतिहास", "Purchase History")}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            {approved.length === 0 ? (
+                                <p className="text-center py-8 text-muted-foreground italic">No approved purchases yet.</p>
+                            ) : (
+                                approved.map(req => (
+                                    <div key={req.id} className="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-green-50 shadow-sm hover:shadow-md transition-all">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                                                <ShoppingCart className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-bold text-green-900">
+                                                    Bought from {req.farmerName}
+                                                </p>
+                                                <p className="text-xs text-green-600/60 font-medium">
+                                                    {new Date(req.createdAt).toLocaleDateString()} · ₹{req.pricePerCredit.toLocaleString("en-IN")}/CR
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="font-bold text-green-700">+{req.amount} CR</p>
+                                            {req.txHash && (
+                                                <button
+                                                    onClick={() => window.open(`https://sepolia.etherscan.io/tx/${req.txHash}`, "_blank")}
+                                                    className="text-[10px] text-muted-foreground font-mono hover:text-green-600 flex items-center gap-1"
+                                                >
+                                                    {req.txHash.slice(0, 10)}... <ExternalLink className="w-2 h-2" />
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-green-900">Credit Purchase</p>
-                                        <p className="text-xs text-green-600/60 font-medium">{new Date(tx.timestamp).toLocaleDateString()}</p>
+                                ))
+                            )}
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Pending requests */}
+                {pending.length > 0 && (
+                    <Card className="border-amber-100 shadow-xl shadow-amber-900/5">
+                        <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <Activity className="w-5 h-5 text-amber-500 animate-pulse" />
+                                Awaiting Farmer Approval
+                                <Badge className="bg-amber-100 text-amber-700 border-none ml-1">{pending.length}</Badge>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-3">
+                                {pending.map(req => (
+                                    <div key={req.id} className="flex items-center justify-between p-4 bg-amber-50 rounded-2xl border border-amber-200">
+                                        <div>
+                                            <p className="text-sm font-bold text-green-900">Request to {req.farmerName}</p>
+                                            <p className="text-xs text-green-600/60">{req.amount} CR · {new Date(req.createdAt).toLocaleDateString()}</p>
+                                        </div>
+                                        <Badge className="bg-amber-100 text-amber-700 border-none">PENDING</Badge>
                                     </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="font-bold text-green-700">+{tx.amount} CR</p>
-                                    <button onClick={() => window.open(`https://sepolia.etherscan.io/tx/${tx.hash}`, "_blank")} className="text-[10px] text-muted-foreground font-mono hover:text-green-600 flex items-center gap-1">
-                                        {tx.hash.slice(0, 10)}... <ExternalLink className="w-2 h-2" />
-                                    </button>
-                                </div>
+                                ))}
                             </div>
-                        ))
-                    )}
-                </div>
-            </CardContent>
-        </Card>
-    );
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* Rejected */}
+                {rejected.length > 0 && (
+                    <Card className="border-red-50 shadow-xl shadow-red-900/5">
+                        <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                                <CheckCircle2 className="w-5 h-5 text-red-500" />
+                                Rejected Requests
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="space-y-3">
+                                {rejected.map(req => (
+                                    <div key={req.id} className="flex items-center justify-between p-4 bg-red-50 rounded-2xl border border-red-100">
+                                        <div>
+                                            <p className="text-sm font-bold text-red-900">Request to {req.farmerName}</p>
+                                            <p className="text-xs text-red-600/60">{req.amount} CR · {new Date(req.createdAt).toLocaleDateString()}</p>
+                                        </div>
+                                        <Badge className="bg-red-100 text-red-700 border-none">REJECTED</Badge>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
+            </div>
+        );
+    };
+
 
     const SettingsView = () => (
         <Card className="border-green-100 shadow-xl shadow-green-900/5">

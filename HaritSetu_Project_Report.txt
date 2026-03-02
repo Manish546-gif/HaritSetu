@@ -1,0 +1,66 @@
+HARITSETU: THE DECENTRALIZED INFRASTRUCTURE FOR SUSTAINABLE AGRO-ECOLOGY
+Project ID: HSETU-2026-ALPHA
+Date: February 26, 2026
+
+================================================================================
+1. EXECUTIVE SUMMARY
+================================================================================
+HaritSetu ("The Green Bridge") is a decentralized, Web3-powered platform 
+designed to transform environmental stewardship into a tangible financial asset. 
+By bridging the gap between smallholder farmers and industrial emitters using 
+blockchain-verified data, HaritSetu creates a high-integrity voluntary carbon 
+market (VCM) that rewards green deeds directly.
+
+================================================================================
+2. THE PROBLEM
+================================================================================
+The current carbon credit market is broken:
+- Intermediaries absorb up to 80% of the financial value.
+- Small farmers are excluded due to high verification costs.
+- Lack of precision data leads to "greenwashing" and double-counting.
+
+================================================================================
+3. FUNCTIONAL WORKFLOW (THE CIRCULAR ECONOMY)
+================================================================================
+
+3.1 FOR FARMERS (SUPPLY SIDE - THE MINT)
+----------------------------------------
+1. GIS MAPPING: Farmers draw their land polygons directly on our map.
+2. CALCULATOR: The system measures hectares and applies crop-specific 
+   sequestration coefficients.
+3. GREEN MULTIPLIERS: 1.5x bonus for using EVs and green machinery.
+4. VERIFICATION: Admin panel reviews GIS data against satellite NDVI imagery.
+5. TOKEN ISSUANCE: HSETU tokens are minted directly to the farmer's wallet.
+
+3.2 FOR BUSINESSES (DEMAND SIDE - THE BURN)
+-------------------------------------------
+1. COMPLIANCE TRACKING: Real-time monitoring of industrial CO2 footprint.
+2. DYNAMIC BURNING: Credits are automatically "burned" from the business 
+   wallet as they emit CO2.
+3. MARKETPLACE: Businesses buy HSETU tokens directly from farmers to 
+   maintain compliance status.
+
+================================================================================
+4. TECHNICAL SPECIFICATIONS
+================================================================================
+- Frontend: React 18, Vite, Tailwind CSS.
+- 3D Visualization: Three.js (The EcoGlobe).
+- GIS Engine: Leaflet.js (Precision mapping).
+- Blockchain Bridge: Ethers.js for immutable ledger synchronization.
+
+================================================================================
+5. FUTURE ROADMAP (2026 - 2030)
+================================================================================
+
+PHASE 1 (MVP): Multi-sided dashboard, GIS measurement, and Admin verification.
+PHASE 2 (AUTOMATION): IoT factory sensor integration and Satellite Oracles.
+PHASE 3 (FINANCIALIZATION): Micro-loans using carbon credits as collateral.
+PHASE 4 (GLOBAL SCALE): Expanding to Blue Carbon and DAO Governance.
+
+================================================================================
+6. CONCLUSION
+================================================================================
+HaritSetu is the missing infrastructure for the sustainable economy. 
+By empowering farmers and holding businesses accountable with real-time data, 
+we are building the green bridge to a net-zero future.
+================================================================================

@@ -1,0 +1,213 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Core & Premium Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in,headheight=14pt]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{float}
+
+% --- Color Palette Definition ---
+\definecolor{HaritGreen}{HTML}{15803D}
+\definecolor{HaritSecondary}{HTML}{166534}
+\definecolor{EcoBlue}{HTML}{0369A1}
+\definecolor{DarkSlate}{HTML}{0F172A}
+\definecolor{LightGray}{HTML}{F8FAFC}
+\definecolor{AccentGold}{HTML}{B45309}
+
+% --- Typography & Styling ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=EcoBlue,
+    filecolor=magenta,      
+    urlcolor=HaritGreen,
+    pdftitle={HaritSetu Project Report - Comprehensive Edition},
+    pdfauthor={Team HaritSetu}
+}
+
+\titleformat{\section}
+  {\color{HaritGreen}\normalfont\Large\bfseries}
+  {\thesection}{1em}{}[{\titlerule[0.8pt]}]
+
+\titleformat{\subsection}
+  {\color{EcoBlue}\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+  {\color{DarkSlate}\normalfont\normalsize\bfseries}
+  {\thesubsubsection}{1em}{}
+
+% --- Header/Footer Customization ---
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\color{gray} \textbf{HaritSetu} | Project Report V2.0}
+\lhead{\color{gray} February 2026}
+\rfooter{\color{gray} Page \thepage}
+\lfooter{\color{gray} \textcopyright \ 2026 Team HaritSetu}
+
+% --- Custom Environments ---
+\newtcolorbox{featurebox}[1]{
+  colback=LightGray,
+  colframe=HaritGreen,
+  fonttitle=\bfseries,
+  title=#1,
+  arc=6pt,
+  boxrule=1pt,
+  left=10pt,
+  right=10pt,
+  top=8pt,
+  bottom=8pt
+}
+
+\newtcolorbox{specbox}[1]{
+  colback=DarkSlate,
+  colframe=EcoBlue,
+  fonttitle=\bfseries,
+  coltitle=white,
+  coltext=white,
+  title=#1,
+  arc=4pt,
+  boxrule=0.5pt
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    \Huge \textbf{\color{HaritGreen}HARITSETU} \\
+    \vspace{0.5cm}
+    \LARGE \textbf{A Decentralized Infrastructure for \\ Sustainable Agro-Ecology} \\
+    
+    \vspace{1.5cm}
+    % \includegraphics[width=0.3\textwidth]{logo} % Placeholder for logo
+    \vspace{3cm}
+    
+    \large \textit{A Comprehensive Technical and Operational Repository for the \\ 
+    Voluntary Carbon Market Revolution} \\
+    
+    \vspace{2cm}
+    
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushleft} \large
+            \textbf{\color{EcoBlue}Project ID:} \\
+            HSETU-2026-ALPHA \\
+            \vspace{0.3cm}
+            \textbf{\color{EcoBlue}Sector:} \\
+            Web3 / AgriTech / ESG
+        \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushright} \large
+            \textbf{\color{EcoBlue}Team:} \\
+            [Team HaritSetu] \\
+            \vspace{0.3cm}
+            \textbf{\color{EcoBlue}Date:} \\
+            February 26, 2026
+        \end{flushright}
+    \end{minipage}
+    
+    \vfill
+    \noindent\rule{\textwidth}{1pt}
+    \vspace{0.5cm}
+    \color{gray} \small This document is submitted for the purposes of project evaluation and hackathon performance assessment.
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction: The Vision of HaritSetu}
+\subsection{1.1 Philosophical Foundation}
+HaritSetu (meaning \textit{"The Green Bridge"}) is built on the belief that environmental stewardship should be the most profitable activity on Earth. For centuries, industrial growth has been decoupled from ecological health. HaritSetu aims to re-attach these concepts using decentralized ledgers, ensuring that every molecule of $CO_2$ sequestered by a farmer is a tangible asset in the global economy.
+
+\subsection{1.2 The Core Objectives}
+The primary objectives of the HaritSetu protocol are:
+\begin{itemize}
+    \item \textbf{Democratization}: Lower the barrier to entry for smallholder farmers (SHFs) from thousands of dollars to literally zero.
+    \item \textbf{High-Integrity Credits}: Eliminate "Greenwashing" by linking carbon credits to specific, verifiable GPS coordinates and real-time biological data.
+    \item \textbf{Active Accountability}: Shift corporate carbon offsetting from a passive annual purchase to a real-time, dynamic "burn" process linked to industrial output.
+\end{itemize}
+
+\section{Detailed Problem Statement: The Broken VCM}
+\subsection{2.1 Economic Inefficiency (The Value Leak)}
+The current Voluntary Carbon Market (VCM) is a fragmented ecosystem of intermediaries. Typically, when a corporation pays \$30 for a carbon credit, the distribution looks as follows:
+\begin{itemize}
+    \item \textbf{Brokers \& Resellers}: 35\% (\$10.50)
+    \item \textbf{Third-Party Auditors}: 25\% (\$7.50)
+    \item \textbf{Platform Registries}: 15\% (\$4.50)
+    \item \textbf{Project Developer}: 15\% (\$4.50)
+    \item \textbf{The Farmer/Sequester}: \textbf{10\% (\$3.00)}
+\end{itemize}
+HaritSetu aims to invert this pyramid.
+
+\section{Functional Flow: The HaritSetu Lifecycle}
+\subsection{3.1 Supply Side: Carbon Sequestration (Minting)}
+\begin{enumerate}
+    \item \textbf{Mapping & Survey}: The farmer logs into the dashboard and uses the GIS interface to define the field's boundary.
+    \item \textbf{Calculation}: Based on the area (calculated via Haversine formula) and the selected crop type (Sequestration Coefficient), the system determines the potential credits.
+    \item \textbf{Green Multipliers}: If the farmer proves the use of EV tractors or green machinery, a 1.5x multiplier is applied.
+    \item \textbf{Admin Approval}: Our admin panel reviews the satellite NDVI data to verify the existence of the bio-mass.
+    \item \textbf{HSETU Issuance}: Tokens are minted directly to the farmer's Web3 wallet.
+\end{enumerate}
+
+\subsection{3.2 Demand Side: Industrial Compliance (Burning)}
+\begin{enumerate}
+    \item \textbf{Baseline Allocation}: Businesses are allocated (or purchase) a baseline of credits according to their production scale.
+    \item \textbf{Live Emission Tracking}: An industrial dashboard simulates/reports actual $CO_2$ emissions.
+    \item \textbf{Automated Burn}: As emission occurs, HSETU tokens are permanently "burned" from the business wallet.
+    \item \textbf{Compliance Gap}: When credits drop below 10\%, the business receives a "Non-Compliant" warning and must buy from the P2P marketplace.
+\end{enumerate}
+
+\section{Technical Architecture}
+\subsection{4.1 The Stack}
+\begin{itemize}
+    \item \textbf{Frontend}: React.js, Vite, Tailwind CSS.
+    \item \textbf{3D Visuals}: Three.js for planetary carbon distribution mapping.
+    \item \textbf{Web3 Bridge}: Ethers.js for interaction with decentralized ledger state.
+    \item \textbf{GIS Engine}: Leaflet for precision mapping and area measurement.
+\end{itemize}
+
+\section{Environmental Science: Calculation Logic}
+\subsection{5.1 IPCC Tiered Implementation}
+HaritSetu adopts a hybrid of Tier 1 and Tier 2 protocols for sequestration calculation:
+\begin{equation}
+    CS = \sum_{i=1}^{n} (Area_i \times Rate_i \times Cycle_i \times M)
+\end{equation}
+
+\section{Future Roadmap: The 2026-2030 Vision}
+\subsection{6.1 Phase 1: MVP (Complete)}
+- GIS Mapping & Multiplier Engine.
+- Real-time Business Burn dashboard.
+- Admin verification workflow.
+
+\subsection{6.2 Phase 2: Automation & Oracles}
+- \textbf{Satellite Automated Oracles}: Using Chainlink to automate NDVI verification via Sentinel-2.
+- \textbf{Industrial IoT Connectors}: Direct plug-and-play for smart factory emission sensors.
+
+\subsection{6.3 Phase 3: Financialization (ReFi)}
+- \textbf{Carbon Loans}: Allowing farmers to use future sequestration as collateral for green-farming loans.
+- \textbf{Impact Certificates}: Tradable NFTs representing specific land-regeneration projects.
+
+\subsection{6.4 Phase 4: Global Expansion}
+- \textbf{Blue Carbon}: Expanding to mangrove and seagrass sequestration mapping.
+- \textbf{DAO Governance}: Transitioning platform parameters to a community-led governance model.
+
+\section{Conclusion}
+HaritSetu is not just a technology platform; it is a movement to re-evaluate the natural world. By turning "Green Actions" into "Green Assets," we provide the financial gravity required to pull the global economy toward sustainability. 
+
+\end{document}

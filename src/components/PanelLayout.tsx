@@ -96,6 +96,12 @@ export const PanelLayout = ({ children, role, title, activeTab = "dashboard", on
                                     active={activeTab === "market"}
                                     onClick={() => onTabChange?.("market")}
                                 />
+                                <NavItem
+                                    icon={<ShoppingCart className="w-4 h-4" />}
+                                    label="Purchase Requests"
+                                    active={activeTab === "purchase-requests"}
+                                    onClick={() => onTabChange?.("purchase-requests")}
+                                />
                             </>
                         )}
 

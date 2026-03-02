@@ -10,6 +10,7 @@ export interface Field {
     status: FieldStatus;
     createdAt: number;
     creditsGenerated?: number;
+    images?: string[];           // Field photos for verification
 }
 
 export interface CropCarbonData {

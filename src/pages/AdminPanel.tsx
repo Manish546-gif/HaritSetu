@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { UserCheck, UserX, Activity, CreditCard, Users, Check, X, Map as MapIcon, Eye } from "lucide-react";
+import { UserCheck, UserX, Activity, CreditCard, Users, Check, X, Map as MapIcon, Eye, Image as ImageIcon, Camera } from "lucide-react";
 import { toast } from "sonner";
 import { fieldService, Field, CROP_DATA } from "@/lib/fieldService";
 import { web3Service } from "@/lib/web3";
@@ -239,12 +239,66 @@ export default function AdminPanel() {
                                                                 <Eye className="w-4 h-4 mr-1" /> View
                                                             </Button>
                                                         </DialogTrigger>
-                                                        <DialogContent className="max-w-3xl">
+                                                        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
                                                             <DialogHeader>
-                                                                <DialogTitle>Field Boundary: {field.nickname}</DialogTitle>
+                                                                <DialogTitle className="text-2xl font-black text-green-900">Verification Details: {field.nickname}</DialogTitle>
                                                             </DialogHeader>
-                                                            <div className="h-[400px] rounded-xl overflow-hidden border border-green-100">
-                                                                <FieldMap readOnly initialPolygon={field.polygon} />
+
+                                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+                                                                <div className="space-y-4">
+                                                                    <h4 className="font-bold text-green-800 flex items-center gap-2">
+                                                                        <MapIcon className="w-4 h-4" />
+                                                                        Field Boundary
+                                                                    </h4>
+                                                                    <div className="h-[300px] rounded-2xl overflow-hidden border-2 border-green-100 shadow-inner">
+                                                                        <FieldMap readOnly initialPolygon={field.polygon} />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="space-y-4">
+                                                                    <h4 className="font-bold text-green-800 flex items-center gap-2">
+                                                                        <Camera className="w-4 h-4" />
+                                                                        Field Photos
+                                                                    </h4>
+                                                                    {field.images && field.images.length > 0 ? (
+                                                                        <div className="grid grid-cols-2 gap-2">
+                                                                            {field.images.map((img, idx) => (
+                                                                                <div key={idx} className="aspect-video rounded-xl overflow-hidden border border-green-50 shadow-sm">
+                                                                                    <img src={img} className="w-full h-full object-cover" alt={`Field ${idx + 1}`} />
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="aspect-video flex flex-col items-center justify-center bg-green-50 rounded-2xl border-2 border-dashed border-green-100 text-green-600/50">
+                                                                            <ImageIcon className="w-12 h-12 mb-2" />
+                                                                            <p className="text-sm font-medium">No photos provided</p>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="mt-6 p-4 bg-green-50 rounded-2xl border border-green-100 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                                <div>
+                                                                    <p className="text-[10px] uppercase font-bold text-green-600/60">Area</p>
+                                                                    <p className="text-lg font-black text-green-900">{field.area.toFixed(2)} ha</p>
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-[10px] uppercase font-bold text-green-600/60">Crop</p>
+                                                                    <p className="text-lg font-black text-green-900">{field.cropType}</p>
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-[10px] uppercase font-bold text-green-600/60">Potential Credits</p>
+                                                                    <p className="text-lg font-black text-green-600">{fieldService.calculatePotentialCredits(field.area, field.cropType)} CR</p>
+                                                                </div>
+                                                                <div className="flex items-end justify-end">
+                                                                    <Button
+                                                                        onClick={() => handleApproveField(field)}
+                                                                        disabled={isApproving === field.id}
+                                                                        className="bg-green-600 hover:bg-green-700 font-bold"
+                                                                    >
+                                                                        {isApproving === field.id ? "Approving..." : "Approve Field"}
+                                                                    </Button>
+                                                                </div>
                                                             </div>
                                                         </DialogContent>
                                                     </Dialog>
