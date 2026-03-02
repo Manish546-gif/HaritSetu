@@ -39,12 +39,12 @@ import { ledgerService, Transaction } from "@/lib/ledger";
 import { authService } from "@/lib/auth";
 import { web3Service } from "@/lib/web3";
 import { toast } from "sonner";
-import { CarbonCalculator } from "@/components/calculator/CarbonCalculator";
-import { MarketplaceList } from "@/components/marketplace/MarketplaceList";
-import { CarbonWallet } from "@/components/wallet/CarbonWallet";
+import { CarbonCalculator } from "@/features/calculator/components/CarbonCalculator";
+import { MarketplaceList } from "@/features/marketplace/components/MarketplaceList";
+import { CarbonWallet } from "@/features/wallet/components/CarbonWallet";
 import { fieldService, Field, CROP_DATA } from "@/lib/fieldService";
 import { purchaseService, PurchaseRequest } from "@/lib/purchaseService";
-import FieldMap from "@/components/map/FieldMap";
+import FieldMap from "@/features/map/components/FieldMap";
 
 export default function FarmerPanel() {
     const { t } = useLanguage();

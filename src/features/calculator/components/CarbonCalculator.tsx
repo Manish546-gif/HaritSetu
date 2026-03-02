@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Car, Leaf, Factory, Tractor } from "lucide-react";
-import { calculateTotalCarbonCredits, convertToCarbonCredits, CARBON_CREDIT_PRICE } from "@/utils/carbonCalculator";
+import { calculateTotalCarbonCredits, convertToCarbonCredits, CARBON_CREDIT_PRICE } from "@/features/calculator/utils/carbonCalculator";
 import { EVCalculator } from "./EVCalculator";
 import { PlantCalculator } from "./PlantCalculator";
 import { BiogasCalculator } from "./BiogasCalculator";

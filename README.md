@@ -1,73 +1,86 @@
-# Welcome to your Lovable project
+# HaritSetu
 
-## Project info
+HaritSetu is a front-end prototype for a sustainable agriculture and carbon-credit ecosystem. It includes role-based panels, carbon calculators, a marketplace, a wallet, and field mapping.
 
-**URL**: https://lovable.dev/projects/5a3a541f-e382-4a82-b439-728fe269fddb
+## Features
+- Role-based dashboards for farmer, business, and admin personas
+- Carbon credit calculators for multiple activities
+- Marketplace and wallet flows for credits
+- Field mapping with Leaflet and polygon tools
+- 3D visual elements with Three.js
 
-## How can I edit this code?
+## Tech Stack
+- Vite + React + TypeScript
+- Tailwind CSS + shadcn/ui (Radix UI)
+- React Router
+- Leaflet + react-leaflet
+- Three.js + @react-three/fiber
+- Ethers.js (web3 integration)
 
-There are several ways of editing your application.
+## Project Structure
+```
+src/
+	components/        # Shared, non-feature UI and layout components
+	context/           # App context providers
+	features/          # Feature modules (calculator, marketplace, wallet, map)
+		calculator/
+			components/
+			utils/
+		marketplace/
+			components/
+		wallet/
+			components/
+		map/
+			components/
+	hooks/             # Reusable hooks
+	lib/               # Service wrappers (auth, ledger, web3)
+	pages/             # Route-level pages
+	utils/             # Shared utilities
+	App.tsx
+	main.tsx
+```
 
-**Use Lovable**
+## Getting Started
+### Prerequisites
+- Node.js 18+ (or compatible LTS)
+- npm or bun
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5a3a541f-e382-4a82-b439-728fe269fddb) and start prompting.
+### Install
+```bash
+npm install
+```
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Run Dev Server
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Build
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Preview Production Build
+```bash
+npm run preview
+```
 
-**Use GitHub Codespaces**
+## Scripts
+- `dev`: start the dev server
+- `build`: production build
+- `build:dev`: development-mode build
+- `lint`: run ESLint
+- `preview`: preview production build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Environment Variables
+No required environment variables are defined in the repo. If you add network or API configuration, use Vite-prefixed variables (for example, `VITE_RPC_URL`) in a `.env` file.
 
-## What technologies are used for this project?
+## Contributing
+1. Create a feature branch
+2. Make changes with focused commits
+3. Run `npm run lint`
+4. Open a PR with a short summary and screenshots if UI changes are involved
 
-This project is built with:
+## License
+This project is not currently licensed. Add a license file if you plan to distribute it.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/5a3a541f-e382-4a82-b439-728fe269fddb) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
