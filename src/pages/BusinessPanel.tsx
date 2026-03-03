@@ -44,7 +44,7 @@ export default function BusinessPanel() {
     const location = useLocation();
     const [activeTab, setActiveTab] = useState(location.state?.activeTab || "dashboard");
     const [balance, setBalance] = useState(0);
-    const [emissions, setEmissions] = useState(420);
+    const [emissions, setEmissions] = useState(0);
     const [limit] = useState(500);
     const [isBuying, setIsBuying] = useState(false);
     const [recentTXs, setRecentTXs] = useState<Transaction[]>([]);
@@ -107,22 +107,22 @@ export default function BusinessPanel() {
                 <StatsCard
                     icon={<Activity className="w-5 h-5 text-red-600" />}
                     label={t("वर्तमान पदचिह्न", "Current Footprint")}
-                    value={`${emissions.toFixed(1)} MT`}
-                    sub="Monthly Tracking"
+                    value={`${emissions.toFixed(3)} MtCO₂e`}
+                    sub="Monthly Real-time Tracking"
                     trend="-4.2% this year"
                 />
                 <StatsCard
                     icon={<Wallet className="w-5 h-5 text-green-600" />}
                     label={t("क्रेडिट बैलेंस", "Credit Balance")}
-                    value={`${balance} CR`}
-                    sub="Compliance Surplus"
+                    value={`${balance.toFixed(6)} CR`}
+                    sub={`≈ ₹ ${(balance * 1400).toLocaleString()}`}
                     trend="Target: 5,000"
                 />
                 <StatsCard
                     icon={<Building className="w-5 h-5 text-blue-600" />}
                     label={t("मासिक सीमा", "Monthly Limit")}
-                    value={`${limit} MT`}
-                    sub="Regulatory Target"
+                    value={`${limit} MtCO₂e`}
+                    sub="Regulatory Compliance Target"
                     trend="Certified"
                 />
             </div>
@@ -223,7 +223,7 @@ export default function BusinessPanel() {
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="font-bold text-green-700">+{req.amount} CR</p>
+                                            <p className="font-bold text-green-700">+{req.amount.toFixed(6)} CR</p>
                                             {req.txHash && (
                                                 <button
                                                     onClick={() => window.open(`https://sepolia.etherscan.io/tx/${req.txHash}`, "_blank")}

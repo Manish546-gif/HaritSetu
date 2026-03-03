@@ -22,7 +22,7 @@ import { fieldService } from "@/lib/fieldService";
 import { purchaseService } from "@/lib/purchaseService";
 import { toast } from "sonner";
 
-const BASE_PRICE = 2075;
+const BASE_PRICE = 1400;
 
 // Shape of a live marketplace listing built from real localStorage data
 interface Listing {

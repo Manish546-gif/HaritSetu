@@ -10,7 +10,7 @@ interface CalculationResultProps {
   onSellCredits: () => void;
 }
 
-export function CalculationResult({ 
+export function CalculationResult({
   carbonCredits,
   marketValue,
   onReset,
@@ -32,26 +32,26 @@ export function CalculationResult({
           <div className="bg-gradient-to-br from-agro-cream to-white rounded-xl p-6 shadow-sm border border-agro-cream/50">
             <h3 className="text-lg font-medium text-agro-green/80 mb-2">अनुमानित कार्बन क्रेडिट</h3>
             <div className="flex items-end gap-2">
-              <span className="text-4xl font-bold text-agro-green">{carbonCredits.toLocaleString('en-IN')}</span>
+              <span className="text-4xl font-bold text-agro-green">{carbonCredits.toFixed(6)}</span>
               <span className="text-sm text-agro-green/70 mb-1">क्रेडिट</span>
             </div>
             <p className="text-sm text-agro-green/70 mt-2">
-              प्रत्येक क्रेडिट वातावरण से कम या हटाए गए 1 मीट्रिक टन CO₂ के बराबर है।
+              प्रत्येक क्रेडिट वातावरण से कम या हटाए गए 1 टन CO₂ के बराबर है।
             </p>
           </div>
-          
+
           <div className="bg-gradient-to-br from-agro-lightGreen/10 to-white rounded-xl p-6 shadow-sm border border-agro-lightGreen/20">
             <h3 className="text-lg font-medium text-agro-green/80 mb-2">अनुमानित बाज़ार मूल्य</h3>
             <div className="flex items-end gap-2">
-              <span className="text-4xl font-bold text-agro-green">₹{(marketValue * 83).toLocaleString('en-IN')}</span>
+              <span className="text-4xl font-bold text-agro-green">₹{marketValue.toLocaleString('en-IN')}</span>
               <span className="text-sm text-agro-green/70 mb-1">INR</span>
             </div>
             <p className="text-sm text-agro-green/70 mt-2">
-              ₹2,075 प्रति कार्बन क्रेडिट की वर्तमान बाज़ार दर के आधार पर।
+              ₹1400 प्रति कार्बन क्रेडिट की वर्तमान बाज़ार दर के आधार पर।
             </p>
           </div>
         </div>
-        
+
         <div className="mt-8 p-4 bg-agro-wheat/10 rounded-lg border border-agro-wheat/20">
           <h3 className="font-medium text-agro-green mb-2 flex items-center gap-2">
             <Wallet className="h-5 w-5" />
@@ -73,7 +73,7 @@ export function CalculationResult({
         >
           कैलकुलेटर रीसेट करें
         </Button>
-        
+
         <Button
           onClick={onSellCredits}
           className="w-full sm:w-auto bg-agro-green hover:bg-agro-green/90 flex items-center gap-2"

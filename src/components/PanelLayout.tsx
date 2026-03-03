@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { authService, UserRole } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Leaf, LogOut, User, LayoutDashboard, History, Settings, Calculator, ShoppingCart, Wallet, Cloud, BarChart3, FileLineChart, Microscope, Map as MapIcon } from "lucide-react";
+import { Leaf, LogOut, User, LayoutDashboard, History, Settings, Calculator, ShoppingCart, Wallet, Cloud, BarChart3, FileLineChart, Microscope, Map as MapIcon, BookOpen, MessageSquare } from "lucide-react";
 import { useWeb3 } from "@/context/Web3Context";
 
 interface PanelLayoutProps {
@@ -97,6 +97,12 @@ export const PanelLayout = ({ children, role, title, activeTab = "dashboard", on
                                     onClick={() => onTabChange?.("market")}
                                 />
                                 <NavItem
+                                    icon={<BookOpen className="w-4 h-4" />}
+                                    label="Crop Library"
+                                    active={activeTab === "crop-library"}
+                                    onClick={() => onTabChange?.("crop-library")}
+                                />
+                                <NavItem
                                     icon={<ShoppingCart className="w-4 h-4" />}
                                     label="Purchase Requests"
                                     active={activeTab === "purchase-requests"}
@@ -149,6 +155,12 @@ export const PanelLayout = ({ children, role, title, activeTab = "dashboard", on
                             label="Settings"
                             active={activeTab === "settings"}
                             onClick={() => onTabChange?.("settings")}
+                        />
+                        <NavItem
+                            icon={<MessageSquare className="w-4 h-4" />}
+                            label="Contact Support"
+                            active={false}
+                            onClick={() => navigate("/contact")}
                         />
                     </nav>
 

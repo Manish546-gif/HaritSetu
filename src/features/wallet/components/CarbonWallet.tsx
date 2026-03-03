@@ -45,7 +45,7 @@ export function CarbonWallet() {
     }
   }, [user]);
 
-  const WALLET_VALUE = balance * 2075;
+  const WALLET_VALUE = balance * 1400;
 
   return (
     <div className="container mx-auto py-8">
@@ -90,13 +90,13 @@ export function CarbonWallet() {
                 <div className="bg-gradient-to-br from-agro-cream to-white rounded-xl p-6 shadow-sm border border-agro-cream/50">
                   <h3 className="text-lg font-medium text-agro-green/80 mb-2">{t("वर्तमान बैलेंस", "Current Balance")}</h3>
                   <div className="flex items-end gap-2">
-                    <span className="text-4xl font-bold text-agro-green">{balance.toLocaleString('en-IN')}</span>
+                    <span className="text-4xl font-bold text-agro-green">{balance.toFixed(6)}</span>
                     <span className="text-sm text-agro-green/70 mb-1">{t("क्रेडिट", "credits")}</span>
                   </div>
                   <p className="text-sm text-agro-green/70 mt-2">
                     {t(
-                      "प्रत्येक क्रेडिट 1 मीट्रिक टन CO₂ के बराबर है।",
-                      "Each credit equals 1 metric ton of CO₂."
+                      "प्रत्येक क्रेडिट 1 टन CO₂ के बराबर है।",
+                      "Each credit equals 1 tonne of CO₂."
                     )}
                   </p>
                 </div>
@@ -109,8 +109,8 @@ export function CarbonWallet() {
                   </div>
                   <p className="text-sm text-agro-green/70 mt-2">
                     {t(
-                      `₹2,075 प्रति कार्बन क्रेडिट की वर्तमान बाज़ार दर के आधार पर।`,
-                      `Based on current market rate of ₹2,075 per carbon credit.`
+                      `₹1400 प्रति कार्बन क्रेडिट की वर्तमान बाज़ार दर के आधार पर।`,
+                      `Based on current market rate of ₹1400 per carbon credit.`
                     )}
                   </p>
                 </div>
@@ -182,8 +182,8 @@ export function CarbonWallet() {
                       <TableCell>
                         <Badge variant="outline" className="capitalize">{tx.type}</Badge>
                       </TableCell>
-                      <TableCell className="font-bold">{tx.amount} CR</TableCell>
-                      <TableCell>{currencySymbol}{(tx.amount * 2075).toLocaleString()}</TableCell>
+                      <TableCell className="font-bold">{tx.amount.toFixed(6)} CR</TableCell>
+                      <TableCell>{currencySymbol}{(tx.amount * 1400).toLocaleString()}</TableCell>
                       <TableCell>
                         <Badge className="bg-green-100 text-green-700">{tx.status}</Badge>
                       </TableCell>
@@ -268,11 +268,11 @@ export function CarbonWallet() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="font-medium mb-1 text-agro-green/90">{t("वर्तमान बाज़ार मूल्य", "Current Market Price")}</p>
-                    <p className="text-agro-green/80">{currencySymbol}2,075 {t("प्रति कार्बन क्रेडिट", "per carbon credit")}</p>
+                    <p className="text-agro-green/80">{currencySymbol}1,400 {t("प्रति कार्बन क्रेडिट", "per carbon credit")}</p>
                   </div>
                   <div>
                     <p className="font-medium mb-1 text-agro-green/90">{t("आपका व्यापार बैलेंस", "Your Trading Balance")}</p>
-                    <p className="text-agro-green/80">{balance} {t("क्रेडिट्स उपलब्ध", "credits available")}</p>
+                    <p className="text-agro-green/80">{balance.toFixed(6)} {t("क्रेडिट्स उपलब्ध", "credits available")}</p>
                   </div>
                   <div>
                     <p className="font-medium mb-1 text-agro-green/90">{t("लेनदेन शुल्क", "Transaction Fee")}</p>

@@ -248,6 +248,43 @@
   }
 }
 
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-ticker {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -319,4 +356,12 @@
 
 .perspective-tilt:hover {
   transform: perspective(1000px) rotateX(4deg) rotateY(4deg) translateY(-8px);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+}
+
+.mask-fade-out {
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }

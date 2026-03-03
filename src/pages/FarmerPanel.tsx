@@ -31,7 +31,8 @@ import {
     Sprout,
     Camera,
     Upload,
-    X
+    X,
+    BookOpen
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useWeb3 } from "@/context/Web3Context";
@@ -111,22 +112,22 @@ export default function FarmerPanel() {
                 <StatsCard
                     icon={<Wallet className="w-5 h-5 text-green-600" />}
                     label={t("उपलब्ध क्रेडिट", "Available Credits")}
-                    value={`${balance} CR`}
-                    sub={`≈ ₹ ${(balance * 2075).toLocaleString()}`}
+                    value={`${balance.toFixed(6)} CR`}
+                    sub={`≈ ₹ ${(balance * 1400).toLocaleString()}`}
                     trend="+12.5% this month"
                 />
                 <StatsCard
                     icon={<TrendingUp className="w-5 h-5 text-blue-600" />}
                     label={t("कुल कमाई", "Total Earned")}
-                    value="₹ 1.2M"
-                    sub="from 12 transactions"
-                    trend="+5.2% vs last month"
+                    value={`₹ ${((recentTXs.reduce((sum, tx) => tx.type === 'SELL' ? sum + tx.amount : sum, 0)) * 1400).toLocaleString()}`}
+                    sub={`from ${recentTXs.filter(tx => tx.type === 'SELL').length} sales`}
+                    trend="+15.2% vs last month"
                 />
                 <StatsCard
                     icon={<CheckCircle2 className="w-5 h-5 text-green-600" />}
                     label={t("सत्यापन स्थिति", "Verification Status")}
-                    value="85%"
-                    sub="High Integrity"
+                    value={farmerFields.length > 0 ? `${Math.round((farmerFields.filter(f => f.status === 'APPROVED').length / farmerFields.length) * 100)}%` : "0%"}
+                    sub={farmerFields.length > 0 ? "Field Verification Score" : "No Fields Yet"}
                     trend="Certified by HaritSetu"
                 />
             </div>
@@ -140,7 +141,7 @@ export default function FarmerPanel() {
                             {t("नए क्रेडिट जनरेट करें", "Generate New Credits")}
                         </CardTitle>
                         <CardDescription>
-                            {t("अपनी टिकाऊ खेती प्रथाओं को सत्यापित क्रेडिट में बदलें।", "Convert your sustainable farming practices into verified credits.")}
+                            {t("अपनी टिकाऊ खेती प्रथाओं को सत्यापित क्रेडिट में बदलें। 1 क्रेडिट = 1 टन CO2।", "Convert your sustainable farming practices into verified credits. 1 Credit = 1 Tonne CO2.")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="pt-6">
@@ -184,7 +185,7 @@ export default function FarmerPanel() {
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         <YieldIndicator label="Soil Health" value="OPTIMAL" color="text-green-600" />
-                        <YieldIndicator label="Carbon Sink Rate" value="+2.4t/ha" color="text-green-600" />
+                        <YieldIndicator label="Carbon Sink Rate" value="+4.2Mt/ha" color="text-green-600" />
                         <YieldIndicator label="Water Efficiency" value="92%" color="text-green-600" />
                         <YieldIndicator label="Market Premium" value="15%" color="text-yellow-600" />
                     </div>
@@ -251,7 +252,7 @@ export default function FarmerPanel() {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <p className="font-bold text-green-700">+{tx.amount} CR</p>
+                                    <p className="font-bold text-green-700">+{tx.amount.toFixed(6)} CR</p>
                                     <button onClick={() => window.open(`https://sepolia.etherscan.io/tx/${tx.hash}`, "_blank")} className="text-[10px] text-muted-foreground font-mono hover:text-green-600 flex items-center gap-1">
                                         {tx.hash.slice(0, 10)}... <ExternalLink className="w-2 h-2" />
                                     </button>
@@ -368,7 +369,7 @@ export default function FarmerPanel() {
                 <CardContent>
                     <div className="p-8 text-center bg-green-50 rounded-[2rem] border border-green-100">
                         <p className="text-sm font-bold text-green-600 uppercase tracking-widest mb-2">Current Credit Value</p>
-                        <h3 className="text-6xl font-black text-green-900 mb-4">₹2,840 <span className="text-xl text-green-500">/ CR</span></h3>
+                        <h3 className="text-6xl font-black text-green-900 mb-4">₹1400 <span className="text-xl text-green-500">/ CR</span></h3>
                         <div className="flex items-center justify-center gap-2 text-green-600 font-bold">
                             <TrendingUp className="w-4 h-4" />
                             <span>+12.4% this month</span>
@@ -562,10 +563,71 @@ export default function FarmerPanel() {
             case "registration": return <RegistrationView />;
             case "register-field": return <RegisterFieldView user={user} t={t} onFieldSubmitted={() => user && setFarmerFields(fieldService.getFarmerFields(user.id))} />;
             case "purchase-requests": return <PurchaseRequestsView />;
+            case "crop-library": return <CropLibraryView />;
             default: return <DashboardView />;
         }
     };
 
+
+    const CropLibraryView = () => (
+        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Card className="border-green-100 shadow-xl shadow-green-900/5">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-black text-green-900 flex items-center gap-3">
+                        <BookOpen className="w-6 h-6 text-green-600" />
+                        Sequestration Library
+                    </CardTitle>
+                    <CardDescription>
+                        Standard CO₂ absorption rates and crop durations for verified carbon credit minting.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="bg-white rounded-[2rem] overflow-hidden border border-green-50 shadow-sm">
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left">
+                                <thead className="bg-green-50 text-green-900">
+                                    <tr>
+                                        <th className="px-6 py-4 text-xs font-black uppercase tracking-widest">Crop Type</th>
+                                        <th className="px-6 py-4 text-xs font-black uppercase tracking-widest">Duration</th>
+                                        <th className="px-6 py-4 text-xs font-black uppercase tracking-widest">CO₂ / Ha</th>
+                                        <th className="px-6 py-4 text-xs font-black uppercase tracking-widest">CO₂ / Acre</th>
+                                        <th className="px-6 py-4 text-xs font-black uppercase tracking-widest">Eco-Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-green-50">
+                                    {[
+                                        { crop: "Rice (Paddy)", duration: "110–150 days", hectare: "~3.5 – 5", acre: "~1.4 – 2", note: "High biomass sink" },
+                                        { crop: "Wheat", duration: "120–140 days", hectare: "~2.5 – 3.5", acre: "~1 – 1.4", note: "Major Rabi sink" },
+                                        { crop: "Maize (Corn)", duration: "90–120 days", hectare: "~3 – 4", acre: "~1.2 – 1.6", note: "Fast photosynthesis" },
+                                        { crop: "Sugarcane", duration: "10–14 months", hectare: "~12 – 18", acre: "~5 – 7", note: "Highest efficiency" },
+                                        { crop: "Cotton", duration: "150–180 days", hectare: "~3 – 5", acre: "~1.2 – 2", note: "Long duration crop" },
+                                        { crop: "Soybean", duration: "90–110 days", hectare: "~2 – 3", acre: "~0.8 – 1.2", note: "Improves soil carbon" },
+                                        { crop: "Mustard", duration: "110–130 days", hectare: "~1.5 – 2.5", acre: "~0.6 – 1", note: "Moderate biomass" },
+                                        { crop: "Potato", duration: "90–110 days", hectare: "~2 – 3", acre: "~0.8 – 1.2", note: "Short lifecycle" },
+                                        { crop: "Vegetables", duration: "60–90 days", hectare: "~1 – 2", acre: "~0.4 – 0.8", note: "Density dependent" },
+                                        { crop: "Millets", duration: "80–100 days", hectare: "~2 – 3", acre: "~0.8 – 1.2", note: "Climate-resilient" },
+                                        { crop: "Agroforestry", duration: "Multi-year", hectare: "~8 – 25 / yr", acre: "~3 – 10 / yr", note: "High permanence" },
+                                    ].map((row, idx) => (
+                                        <tr key={idx} className="hover:bg-green-50/50 transition-colors">
+                                            <td className="px-6 py-4 font-bold text-green-950">{row.crop}</td>
+                                            <td className="px-6 py-4 text-sm font-medium text-green-700/70">{row.duration}</td>
+                                            <td className="px-6 py-4 font-black text-green-700">{row.hectare} t</td>
+                                            <td className="px-6 py-4 font-bold text-emerald-600">{row.acre} t</td>
+                                            <td className="px-6 py-4">
+                                                <Badge variant="outline" className="border-green-100 text-green-600 text-[10px] font-bold px-3 py-0.5 whitespace-nowrap">
+                                                    {row.note}
+                                                </Badge>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    );
 
     return (
         <PanelLayout

@@ -16,6 +16,9 @@ const Login = lazy(() => import("@/pages/Login"));
 const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
 const FarmerPanel = lazy(() => import("@/pages/FarmerPanel"));
 const BusinessPanel = lazy(() => import("@/pages/BusinessPanel"));
+const About = lazy(() => import("@/pages/About"));
+const Docs = lazy(() => import("@/pages/Docs"));
+const Contact = lazy(() => import("@/pages/Contact"));
 
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -58,7 +61,69 @@ class GlobalErrorBoundary extends React.Component<
 const App = () => {
   console.log("App component mounting...");
   const [loading, setLoading] = useState(true);
-  const handleLoadComplete = useCallback(() => setLoading(false), []);
+  const handleLoadComplete = useCallback(() => {
+    // Check for a one-time reset flag or handle the user's explicit reset request
+    // To reset data, the user can visit /?reset=true
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("reset") === "true") {
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith("haritsetu_")) {
+          localStorage.removeItem(key);
+        }
+      });
+      console.log("Global reset completed.");
+      window.history.replaceState({}, document.title, "/");
+      window.location.reload();
+    }
+
+    const targetUser = urlParams.get("purgeUser");
+    if (targetUser) {
+      console.log(`Initiating purge for user: ${targetUser}`);
+
+      // 1. Find user to get wallet address
+      const usersRaw = localStorage.getItem("haritsetu_users");
+      const users = usersRaw ? JSON.parse(usersRaw) : [];
+      const userToDelete = users.find((u: any) => u.name === targetUser || u.id === targetUser || u.email.startsWith(targetUser));
+
+      if (userToDelete) {
+        const walletAddr = userToDelete.walletAddress;
+        const userId = userToDelete.id;
+
+        // 2. Remove from users
+        localStorage.setItem("haritsetu_users", JSON.stringify(users.filter((u: any) => u.id !== userId)));
+
+        // 3. Remove fields
+        const fieldsRaw = localStorage.getItem("haritsetu_fields");
+        if (fieldsRaw) {
+          const fields = JSON.parse(fieldsRaw);
+          localStorage.setItem("haritsetu_fields", JSON.stringify(fields.filter((f: any) => f.farmerId !== userId)));
+        }
+
+        // 4. Remove Ledger transactions
+        const ledgerRaw = localStorage.getItem("haritsetu_ledger");
+        if (ledgerRaw) {
+          const txs = JSON.parse(ledgerRaw);
+          localStorage.setItem("haritsetu_ledger", JSON.stringify(txs.filter((tx: any) => tx.from !== walletAddr && tx.to !== walletAddr)));
+        }
+
+        // 5. Remove Wallet balance
+        const walletsRaw = localStorage.getItem("haritsetu_wallets");
+        if (walletsRaw) {
+          const wallets = JSON.parse(walletsRaw);
+          delete wallets[walletAddr];
+          localStorage.setItem("haritsetu_wallets", JSON.stringify(wallets));
+        }
+
+        console.log(`Purge complete for ${targetUser}`);
+        window.history.replaceState({}, document.title, "/");
+        window.location.reload();
+      } else {
+        console.warn(`User ${targetUser} not found in system.`);
+        window.history.replaceState({}, document.title, "/");
+      }
+    }
+    setLoading(false);
+  }, []);
 
   return (
     <GlobalErrorBoundary>
@@ -76,6 +141,9 @@ const App = () => {
                   <BrowserRouter>
                     <Routes>
                       <Route path="/" element={<Index />} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/docs" element={<Docs />} />
+                      <Route path="/contact" element={<Contact />} />
                       <Route path="/login" element={<Login />} />
 
                       {/* Protected Routes */}

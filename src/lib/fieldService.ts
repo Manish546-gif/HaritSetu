@@ -20,11 +20,17 @@ export interface CropCarbonData {
 }
 
 export const CROP_DATA: Record<string, CropCarbonData> = {
-    "Wheat": { name: "Wheat", absorptionRate: 3.2, growthCycle: 120 },
-    "Rice": { name: "Rice", absorptionRate: 2.6, growthCycle: 110 },
-    "Sugarcane": { name: "Sugarcane", absorptionRate: 6.5, growthCycle: 360 },
-    "Trees": { name: "Trees", absorptionRate: 15.0, growthCycle: 365 },
-    "Maize": { name: "Maize", absorptionRate: 2.8, growthCycle: 100 }
+    "Rice (Paddy)": { name: "Rice (Paddy)", absorptionRate: 4.25, growthCycle: 130 },
+    "Wheat": { name: "Wheat", absorptionRate: 3.0, growthCycle: 130 },
+    "Maize (Corn)": { name: "Maize (Corn)", absorptionRate: 3.5, growthCycle: 105 },
+    "Sugarcane": { name: "Sugarcane", absorptionRate: 15.0, growthCycle: 365 },
+    "Cotton": { name: "Cotton", absorptionRate: 4.0, growthCycle: 165 },
+    "Soybean": { name: "Soybean", absorptionRate: 2.5, growthCycle: 100 },
+    "Mustard": { name: "Mustard", absorptionRate: 2.0, growthCycle: 120 },
+    "Potato": { name: "Potato", absorptionRate: 2.5, growthCycle: 100 },
+    "Vegetables": { name: "Vegetables", absorptionRate: 1.5, growthCycle: 75 },
+    "Millets": { name: "Millets", absorptionRate: 2.5, growthCycle: 90 },
+    "Agroforestry": { name: "Agroforestry", absorptionRate: 16.5, growthCycle: 365 }
 };
 
 const FIELDS_KEY = "haritsetu_fields";
@@ -54,8 +60,9 @@ export const fieldService = {
     calculatePotentialCredits: (area: number, cropType: string): number => {
         const crop = CROP_DATA[cropType];
         if (!crop) return 0;
-        // Formula: Area * Rate * (Cycle / 365)
-        return Number((area * crop.absorptionRate * (crop.growthCycle / 365)).toFixed(2));
+        // Formula: (Area * Rate * (Cycle / 365))
+        // 1 Credit = 1 Tonne standard
+        return Number((area * crop.absorptionRate * (crop.growthCycle / 365)).toFixed(6));
     },
 
     updateFieldStatus: (fieldId: string, status: FieldStatus): Field | null => {

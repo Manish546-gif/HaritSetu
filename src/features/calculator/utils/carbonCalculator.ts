@@ -32,8 +32,8 @@ export const CARBON_FACTORS = {
 
 // Calculate carbon credits for electric vehicles
 export function calculateEVCredits(
-  carCount: number, 
-  tractorCount: number, 
+  carCount: number,
+  tractorCount: number,
   truckCount: number
 ): number {
   return (
@@ -86,19 +86,19 @@ export function calculateCattleCredits(
 ): number {
   const cattleHundreds = cattleCount / 100;
   let credits = 0;
-  
+
   if (usesImprovedFeed) {
     credits += cattleHundreds * CARBON_FACTORS.cattle.improvedFeed;
   }
-  
+
   if (usesManureManagement) {
     credits += cattleHundreds * CARBON_FACTORS.cattle.manureManagement;
   }
-  
+
   if (usesRotationalGrazing) {
     credits += cattleHundreds * CARBON_FACTORS.cattle.rotationalGrazing;
   }
-  
+
   return credits;
 }
 
@@ -135,14 +135,14 @@ export function calculateTotalCarbonCredits(
     evData.tractorCount,
     evData.truckCount
   );
-  
+
   const plantCredits = calculatePlantCredits(
     plantData.treesHectares,
     plantData.cropRotationHectares,
     plantData.coverCropsHectares,
     plantData.agroforestryHectares
   );
-  
+
   const biogasCredits = calculateBiogasCredits(
     biogasData.smallPlants,
     biogasData.mediumPlants,
@@ -151,23 +151,22 @@ export function calculateTotalCarbonCredits(
     biogasData.mediumVoltageSolar,
     biogasData.highVoltageSolar
   );
-  
+
   const cattleCredits = calculateCattleCredits(
     cattleData.cattleCount,
     cattleData.usesImprovedFeed,
     cattleData.usesManureManagement,
     cattleData.usesRotationalGrazing
   );
-  
+
   return evCredits + plantCredits + biogasCredits + cattleCredits;
 }
 
-// Convert metric tons of CO2 to carbon credits (1:1 ratio for simplicity)
+// Convert metric tons of CO2 to carbon credits (1 Credit = 1 Tonne CO2)
 export function convertToCarbonCredits(metricTonsCO2: number): number {
-  // In a real-world scenario, this might involve more complex calculations
-  // considering vintage, verification standards, etc.
-  return Math.round(metricTonsCO2 * 100) / 100; // Round to 2 decimal places
+  // 1 CR = 1 Tonne
+  return metricTonsCO2;
 }
 
-// Current market price of carbon credits (in USD per credit)
-export const CARBON_CREDIT_PRICE = 25; // $25 per credit
+// Current market price of carbon credits (in INR per credit)
+export const CARBON_CREDIT_PRICE = 1400; // ₹1400 per credit

@@ -52,8 +52,10 @@ export const Header = () => {
   };
 
   const navLinks = [
-    { name: t("मुख्य", "Home"), path: "/" },
-    { name: t("हमारे बारे में", "About"), path: "/#about", isAnchor: true },
+    { name: t("मुख्य", "Home"), path: "/", isAnchor: false },
+    { name: t("हमारे बारे में", "About"), path: "/about", isAnchor: false },
+    { name: t("दस्तावेज़", "Documentation"), path: "/docs", isAnchor: false },
+    { name: t("संपर्क", "Contact"), path: "/contact", isAnchor: false },
   ];
 
   const getPortalPath = () => {
